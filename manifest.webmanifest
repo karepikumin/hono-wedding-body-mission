@@ -1,0 +1,10 @@
+{
+  "name":"ほのちゃん Wedding Mission",
+  "short_name":"Wedding Mission",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#fff7fa",
+  "theme_color":"#f7a8c4",
+  "description":"結婚式までの毎日10分ボディメイクミッション",
+  "icons":[]
+}
