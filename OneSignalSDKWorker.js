@@ -1,0 +1,1 @@
+// OneSignal設定後、OneSignalが指定する最新版のWorker内容に置き換えてください。
