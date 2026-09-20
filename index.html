@@ -121,6 +121,18 @@ const guides={
 "深呼吸":{emoji:"☁️",steps:["鼻からゆっくり4秒吸う。","口から6秒くらいかけて吐く。","肩をすくめず、お腹がふくらむ呼吸を意識。","5〜10呼吸ほど。"],tip:"リラックス目的だから、頑張って大きく吸いすぎなくてOK。",svg:"breath"}
 };
 
+const guideImages={
+"デッドバグ":"guide-deadbug.png",
+"リバースクランチ":"guide-reverse.png",
+"壁プッシュアップ":"guide-wall.png",
+"トライセプス伸ばし":"guide-triceps.png",
+"ペットボトルロー":"guide-row.png",
+"肩甲骨寄せ":"guide-scapula.png",
+"プランク":"guide-plank.png",
+"ウォーキング":"guide-walk.png",
+"ストレッチ":"guide-stretch.png",
+"深呼吸":"guide-breath.png"
+};
 const svg={
 deadbug:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="82" cy="98" r="16" fill="#ffdce8"/><path d="M98 103 Q145 105 190 116"/><path d="M126 106 L105 64"/><path d="M150 111 L176 62"/><path d="M171 115 L214 91"/><path d="M190 116 L235 132"/><path d="M112 108 L76 134"/><path d="M137 111 L116 145"/></g><text x="20" y="174" fill="#8b6975" font-size="14">腕と反対の脚をゆっくり伸ばす</text></svg>`,
 reverse:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="72" cy="117" r="15" fill="#ffdce8"/><path d="M88 119 Q132 121 181 124"/><path d="M176 124 Q210 110 228 78"/><path d="M180 124 Q219 129 251 105"/><path d="M120 122 L120 147"/><path d="M145 123 L145 147"/><path d="M229 78 l-4 -15 M229 78 l14 -3"/></g><text x="20" y="174" fill="#8b6975" font-size="14">お尻を少し浮かせて骨盤を丸める</text></svg>`,
@@ -144,7 +156,7 @@ function guideButton(name){
 function openGuide(name){
  const g=guides[name];
  document.querySelector("#modalTitle").textContent=g.emoji+" "+name;
- document.querySelector("#modalIll").innerHTML=svg[g.svg];
+ document.querySelector("#modalIll").innerHTML=`<img src="./${guideImages[name]}" alt="${name}のやり方" style="width:100%;display:block;border-radius:14px;">`;
  document.querySelector("#modalSteps").innerHTML=g.steps.map(x=>`<li>${x}</li>`).join("");
  document.querySelector("#modalTip").textContent="💡 "+g.tip;
  document.querySelector("#overlay").classList.add("show");
