@@ -1,42 +1,181 @@
-<!doctype html><html lang="ja"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#fff0f6"><meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Wedding Mission"><link rel="manifest" href="./manifest.webmanifest">
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff0f6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wedding Mission">
+<link rel="manifest" href="./manifest.webmanifest">
 <title>Wedding Body Mission 💐</title>
 <style>
+*{box-sizing:border-box}
 body{margin:0;background:linear-gradient(#fff7fa,#fff);font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic",sans-serif;color:#4a3b42}
-main{max-width:560px;margin:auto;padding:20px 17px 40px}.hero,.card{background:#fff;border:1px solid #f3dce5;border-radius:24px;padding:19px;margin-bottom:14px;box-shadow:0 6px 20px #eadce233}
-.hero{background:linear-gradient(135deg,#fff,#ffeaf2)}h1{font-size:24px;margin:0 0 5px}.sub,.small{color:#8d7d84;font-size:13px;line-height:1.6}.count{font-size:34px;font-weight:800;margin-top:12px}
-.label{font-size:12px;color:#d45b83;font-weight:800;letter-spacing:.08em}.mission{font-size:21px;font-weight:800;margin:8px 0}.desc{font-size:14px;line-height:1.7}
-button{border:0;border-radius:15px;padding:13px 16px;font-weight:800;font-size:15px}.primary{background:#f58fb0;color:#fff;width:100%;margin-top:12px}.secondary{background:#ffe8f1;color:#b94f76}
+main{max-width:560px;margin:auto;padding:20px 17px 40px}
+.hero,.card{background:#fff;border:1px solid #f3dce5;border-radius:24px;padding:19px;margin-bottom:14px;box-shadow:0 6px 20px #eadce233}
+.hero{background:linear-gradient(135deg,#fff,#ffeaf2)}
+h1{font-size:24px;margin:0 0 5px}.sub,.small{color:#8d7d84;font-size:13px;line-height:1.6}
+.count{font-size:34px;font-weight:800;margin-top:12px}
+.label{font-size:12px;color:#d45b83;font-weight:800;letter-spacing:.08em}
+.mission{font-size:21px;font-weight:800;margin:8px 0}.desc{font-size:14px;line-height:1.7}
+button{border:0;border-radius:15px;padding:13px 16px;font-weight:800;font-size:15px}
+.primary{background:#f58fb0;color:#fff;width:100%;margin-top:12px}.secondary{background:#ffe8f1;color:#b94f76}
 .row{display:flex;gap:9px;align-items:center}.row button{flex:1}input{border:1px solid #f3dce5;border-radius:12px;padding:10px}
-.stamp{text-align:center;font-size:42px}.done{text-align:center;color:#d45b83;font-weight:800}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.day{aspect-ratio:1;border:1px solid #f3dce5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px}.day.done{background:#ffe3ee}
+.stamp{text-align:center;font-size:42px}.done{text-align:center;color:#d45b83;font-weight:800}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.day{aspect-ratio:1;border:1px solid #f3dce5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px}.day.done{background:#ffe3ee}
 .badge{display:inline-block;background:#fff0f6;border-radius:99px;padding:5px 8px;margin:2px;font-size:11px}
-</style></head><body><main>
-<section class="hero"><h1>💐 Wedding Body Mission</h1><div class="sub">ほのちゃんの結婚式まで、1日1ミッション♡</div><div id="count" class="count"></div></section>
-<section class="card"><div class="label">TODAY'S MISSION</div><div id="mission" class="mission"></div><div id="desc" class="desc"></div>
-<button id="done" class="primary">♡ 今日のミッション達成！</button><div id="doneMsg"></div>
-<button id="easy" class="secondary" style="width:100%;margin-top:9px">3分だけやる</button></section>
-<section class="card"><div class="label">🔔 REMINDER</div><p class="small">通知を許可するボタンだよ。アプリを閉じても届く本物のプッシュ通知は、OneSignalなどのWeb Pushサービス接続後に使えるようになるよ。</p>
-<div class="row"><input id="time" type="time" value="20:00"><button id="notify" class="secondary">通知を許可</button></div><p id="notifyMsg" class="small"></p></section>
-<section class="card"><div class="label">📅 STREAK</div><p id="stats"></p><div id="badges"></div><div id="calendar" class="calendar"></div></section>
-<section class="card"><div class="label">💗 データについて</div><p class="small">達成状況はこのiPhone内に保存。体重などをサーバーへ送らない設計だよ。</p></section>
+.guide-list{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.guide-btn{background:#fff7fa;border:1px solid #f3dce5;color:#6b535d;text-align:left;padding:11px;border-radius:16px;min-height:72px}
+.guide-btn .emoji{font-size:24px;display:block;margin-bottom:3px}.guide-btn small{color:#9a8990}
+.overlay{display:none;position:fixed;inset:0;background:#0006;z-index:20;padding:16px;align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:26px 26px 18px 18px;max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:20px 18px 24px;box-shadow:0 15px 45px #0003}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.modal h2{font-size:21px;margin:0}
+.close{background:#f5e8ed;color:#8a6571;padding:8px 12px;border-radius:12px}
+.ill{background:#fff7fa;border-radius:20px;padding:8px;margin:14px 0;text-align:center}
+.ill svg{width:100%;height:190px;max-width:330px}
+.steps{padding-left:22px;line-height:1.75;font-size:14px}.tip{background:#fff0f6;border-radius:14px;padding:11px 13px;font-size:13px;line-height:1.6;color:#765965}
+.exercise-link{display:inline-block;color:#bd5579;text-decoration:underline;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+<h1>💐 Wedding Body Mission</h1>
+<div class="sub">ほのちゃんの結婚式まで、1日1ミッション♡</div>
+<div id="count" class="count"></div>
+</section>
+
+<section class="card">
+<div class="label">TODAY'S MISSION</div>
+<div id="mission" class="mission"></div>
+<div id="desc" class="desc"></div>
+<div id="missionGuides" class="guide-list"></div>
+<button id="done" class="primary">♡ 今日のミッション達成！</button>
+<div id="doneMsg"></div>
+<button id="easy" class="secondary" style="width:100%;margin-top:9px">3分だけやる</button>
+</section>
+
+<section class="card">
+<div class="label">📖 FITNESS GUIDE</div>
+<p class="small">「これどうやるの？」をタップすると、イラスト付きでフォームを確認できるよ♡</p>
+<div id="allGuides" class="guide-list"></div>
+</section>
+
+<section class="card">
+<div class="label">🔔 REMINDER</div>
+<p class="small">今は通知機能の設定だけ保存するよ。本物のプッシュ通知はOneSignalなしでも使える形にできるよう、まずは運動記録を完成させよう♡</p>
+<div class="row"><input id="time" type="time" value="20:00"><button id="notify" class="secondary">通知を許可</button></div>
+<p id="notifyMsg" class="small"></p>
+</section>
+
+<section class="card">
+<div class="label">📅 STREAK</div>
+<p id="stats"></p><div id="badges"></div><div id="calendar" class="calendar"></div>
+</section>
+
+<section class="card">
+<div class="label">💗 データについて</div>
+<p class="small">達成状況はこのiPhone内に保存。体重などをサーバーへ送らない設計だよ。</p>
+</section>
 </main>
+
+<div id="overlay" class="overlay">
+<div class="modal">
+<div class="modal-head"><h2 id="modalTitle"></h2><button class="close" id="close">閉じる</button></div>
+<div class="ill" id="modalIll"></div>
+<ol class="steps" id="modalSteps"></ol>
+<div class="tip" id="modalTip"></div>
+</div>
+</div>
+
 <script>
 const WEDDING=new Date("2026-10-24T00:00:00+09:00");
-const missions=[["下っ腹","デッドバグ10回×2＋リバースクランチ10回×2","腰を反らしすぎずゆっくり♡"],["二の腕","壁プッシュアップ12回×2＋トライセプス伸ばし12回×2","肩をすくめずゆっくり。"],["背中・姿勢","ペットボトルロー12回×2＋肩甲骨寄せ15回×2","胸を軽く開いて♡"],["お腹＋腕","プランク20秒×2＋壁プッシュアップ12回×2","きつければ3分版でOK！"],["歩く日","食後10〜15分ウォーキング","ゆっくりでも大丈夫◎"],["回復","ストレッチ5分＋深呼吸","休むのもミッション♡"],["ごほうび","好きな音楽1曲＋軽いストレッチ","続けた自分をほめる日♡"]];
+const missions=[
+["下っ腹",["デッドバグ","リバースクランチ"],"腰を反らしすぎずゆっくり♡"],
+["二の腕",["壁プッシュアップ","トライセプス伸ばし"],"肩をすくめずゆっくり。"],
+["背中・姿勢",["ペットボトルロー","肩甲骨寄せ"],"胸を軽く開いて♡"],
+["お腹＋腕",["プランク","壁プッシュアップ"],"きつければ3分版でOK！"],
+["歩く日",["ウォーキング"],"食後10〜15分、無理のないペースで◎"],
+["回復",["ストレッチ","深呼吸"],"休むのもミッション♡"],
+["ごほうび",["ストレッチ"],"好きな音楽1曲＋軽いストレッチ♡"]
+];
+
+const guides={
+"デッドバグ":{emoji:"🐛",steps:["仰向けになり、両腕を天井へ。膝は90度に曲げる。","お腹を軽くへこませ、腰が床から浮かないようにする。","右腕＋左脚をゆっくり伸ばし、戻す。反対側も同じ。","左右10回ずつを目安に。痛みが出たら中止。"],tip:"腰が反るなら、脚を床に近づけすぎなくてOK。小さな動きから♡",svg:"deadbug"},
+"リバースクランチ":{emoji:"🌷",steps:["仰向けで膝を曲げ、脚を持ち上げる。","おへそを背中に近づけるイメージで、お尻を少し浮かせる。","反動を使わず、ゆっくり戻す。","10回を目安に。"],tip:"「脚を振る」のではなく「骨盤を丸める」のがポイント。",svg:"reverse"},
+"壁プッシュアップ":{emoji:"💗",steps:["壁に手を肩幅より少し広くつく。","体を一直線にして、胸を壁へ近づける。","壁を押してゆっくり戻る。","12回を目安に。"],tip:"肘を真横に広げすぎず、斜め下へ曲げると◎",svg:"wall"},
+"トライセプス伸ばし":{emoji:"🎀",steps:["片腕を頭の上に上げ、肘を曲げて手を背中側へ。","反対の手で肘を軽く支える。","二の腕の後ろが伸びるところで20秒ほど。","左右1〜2回ずつ。"],tip:"痛いところまで引っ張らないで、気持ちいい伸びでOK♡",svg:"triceps"},
+"ペットボトルロー":{emoji:"🪽",steps:["片手と同じ側の膝を椅子などに置く。","背中をまっすぐにして、反対手でペットボトルを持つ。","肘を後ろへ引き、脇を締める。","ゆっくり下ろして12回。左右行う。"],tip:"肩をすくめず、肘で後ろへ引くイメージ！",svg:"row"},
+"肩甲骨寄せ":{emoji:"✨",steps:["背すじを伸ばして立つ。","肩をすくめず、左右の肩甲骨を背中の中央へ近づける。","2秒キープしてゆるめる。","15回を目安に。"],tip:"胸を張りすぎず、首を長く保つイメージで♡",svg:"scapula"},
+"プランク":{emoji:"🌿",steps:["肘を肩の真下につき、脚を後ろへ伸ばす。","頭・背中・お尻を一直線にする。","お腹を軽く締めて20秒キープ。","きつければ膝をついてOK。"],tip:"腰が反ったらすぐ膝つき版へ。呼吸を止めないでね。",svg:"plank"},
+"ウォーキング":{emoji:"👟",steps:["食後などに10〜15分歩く。","背すじを軽く伸ばし、普段より少し大きめの歩幅で。","息が切れすぎないペースでOK。","暑い日・体調が悪い日は無理しない。"],tip:"「10分だけ」でも十分。続けることがいちばん大事♡",svg:"walk"},
+"ストレッチ":{emoji:"🌸",steps:["首・肩をゆっくり回す。","胸を開いて深呼吸する。","もも裏・お尻などを気持ちいい範囲で伸ばす。","合計5分くらいでOK。"],tip:"反動をつけず、痛くない範囲でゆっくり♡",svg:"stretch"},
+"深呼吸":{emoji:"☁️",steps:["鼻からゆっくり4秒吸う。","口から6秒くらいかけて吐く。","肩をすくめず、お腹がふくらむ呼吸を意識。","5〜10呼吸ほど。"],tip:"リラックス目的だから、頑張って大きく吸いすぎなくてOK。",svg:"breath"}
+};
+
+const svg={
+deadbug:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="82" cy="98" r="16" fill="#ffdce8"/><path d="M98 103 Q145 105 190 116"/><path d="M126 106 L105 64"/><path d="M150 111 L176 62"/><path d="M171 115 L214 91"/><path d="M190 116 L235 132"/><path d="M112 108 L76 134"/><path d="M137 111 L116 145"/></g><text x="20" y="174" fill="#8b6975" font-size="14">腕と反対の脚をゆっくり伸ばす</text></svg>`,
+reverse:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="72" cy="117" r="15" fill="#ffdce8"/><path d="M88 119 Q132 121 181 124"/><path d="M176 124 Q210 110 228 78"/><path d="M180 124 Q219 129 251 105"/><path d="M120 122 L120 147"/><path d="M145 123 L145 147"/><path d="M229 78 l-4 -15 M229 78 l14 -3"/></g><text x="20" y="174" fill="#8b6975" font-size="14">お尻を少し浮かせて骨盤を丸める</text></svg>`,
+wall:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M274 28 L274 155"/><circle cx="130" cy="63" r="15" fill="#ffdce8"/><path d="M144 69 L205 92"/><path d="M205 92 L246 82"/><path d="M205 92 L244 110"/><path d="M150 76 L181 105"/><path d="M181 105 L151 139"/><path d="M181 105 L214 142"/><path d="M245 82 L269 82"/><path d="M244 110 L269 110"/></g><text x="20" y="174" fill="#8b6975" font-size="14">体を一直線にして壁へ近づく</text></svg>`,
+triceps:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="145" cy="42" r="15" fill="#ffdce8"/><path d="M145 58 L145 112"/><path d="M145 70 L112 92"/><path d="M145 70 L174 91"/><path d="M145 112 L116 151"/><path d="M145 112 L177 151"/><path d="M174 91 Q189 66 170 49"/><path d="M170 49 L151 75"/></g><text x="20" y="174" fill="#8b6975" font-size="14">肘を頭の横で支えて二の腕を伸ばす</text></svg>`,
+row:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="104" cy="45" r="14" fill="#ffdce8"/><path d="M115 56 Q157 83 205 91"/><path d="M205 91 L237 64"/><path d="M205 91 L224 129"/><path d="M152 78 L137 121"/><path d="M237 64 L254 52"/><circle cx="258" cy="49" r="7" fill="#ffe7a8" stroke="#d86f92"/></g><text x="20" y="174" fill="#8b6975" font-size="14">肘を後ろへ引いて背中を使う</text></svg>`,
+scapula:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round"><circle cx="165" cy="42" r="15" fill="#ffdce8"/><path d="M165 58 L165 122"/><path d="M165 75 L117 94"/><path d="M165 75 L213 94"/><path d="M117 94 L104 143"/><path d="M213 94 L226 143"/><path d="M135 87 Q150 102 165 103 Q180 102 195 87"/></g><text x="20" y="174" fill="#8b6975" font-size="14">肩甲骨を背中の中央へ寄せる</text></svg>`,
+plank:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="74" cy="88" r="14" fill="#ffdce8"/><path d="M88 92 L170 105 L245 104"/><path d="M111 99 L101 137"/><path d="M142 103 L135 137"/><path d="M245 104 L267 139"/><path d="M225 104 L211 139"/><path d="M96 105 L75 139"/></g><text x="20" y="174" fill="#8b6975" font-size="14">頭・背中・お尻を一直線に</text></svg>`,
+walk:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="160" cy="42" r="15" fill="#ffdce8"/><path d="M160 58 L153 106"/><path d="M153 72 L118 95"/><path d="M154 74 L191 93"/><path d="M153 106 L121 145"/><path d="M153 106 L195 139"/><path d="M118 95 L96 83"/><path d="M191 93 L214 74"/></g><text x="20" y="174" fill="#8b6975" font-size="14">背すじを軽く伸ばして歩こう</text></svg>`,
+stretch:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="148" cy="43" r="15" fill="#ffdce8"/><path d="M148 59 Q140 96 150 124"/><path d="M145 72 L106 49"/><path d="M106 49 L87 61"/><path d="M151 124 L115 151"/><path d="M151 124 L185 151"/><path d="M119 88 Q151 73 180 88"/></g><text x="20" y="174" fill="#8b6975" font-size="14">反動をつけず気持ちいい範囲で</text></svg>`,
+breath:`<svg viewBox="0 0 330 190"><g fill="none" stroke="#d86f92" stroke-width="7" stroke-linecap="round"><circle cx="165" cy="73" r="17" fill="#ffdce8"/><path d="M165 90 L165 145"/><path d="M165 105 L128 123"/><path d="M165 105 L202 123"/><path d="M132 157 Q165 171 198 157"/><path d="M88 82 Q62 96 88 110"/><path d="M242 82 Q268 96 242 110"/></g><text x="20" y="174" fill="#8b6975" font-size="14">ゆっくり吸って、もっとゆっくり吐く</text></svg>`
+};
+
 const key=d=>d.toISOString().slice(0,10),today=new Date(),tk=key(today);
 const store=JSON.parse(localStorage.getItem("honoMission")||"{}");
-function render(){document.querySelector("#count").textContent="あと "+Math.max(0,Math.ceil((WEDDING-new Date())/86400000))+" 日";
-let i=Math.floor((today-new Date("2026-09-20T00:00:00+09:00"))/86400000)%missions.length,m=missions[(i+7)%7];
-document.querySelector("#mission").textContent=m[0];document.querySelector("#desc").innerHTML=m[1]+"<br>"+m[2];
-if(store[tk]){document.querySelector("#doneMsg").innerHTML='<div class="stamp">🎀</div><div class="done">今日もえらいっ♡</div>';document.querySelector("#done").disabled=true}
-let dates=Object.keys(store),streak=0,d=new Date();while(store[key(d)]){streak++;d.setDate(d.getDate()-1)}
-document.querySelector("#stats").textContent=dates.length+"日達成 / "+streak+"日連続";
-document.querySelector("#badges").innerHTML=[1,3,7,14,21,30].filter(n=>dates.length>=n).map(n=>'<span class="badge">🏅 '+n+'日</span>').join("");
-let c="";for(let j=29;j>=0;j--){let x=new Date();x.setDate(x.getDate()-j);c+='<div class="day '+(store[key(x)]?"done":"")+'">'+x.getDate()+"</div>"}document.querySelector("#calendar").innerHTML=c}
+
+function guideButton(name){
+ const g=guides[name];
+ return `<button class="guide-btn" data-guide="${name}"><span class="emoji">${g.emoji}</span><b>${name}</b><br><small>タップしてやり方を見る</small></button>`;
+}
+function openGuide(name){
+ const g=guides[name];
+ document.querySelector("#modalTitle").textContent=g.emoji+" "+name;
+ document.querySelector("#modalIll").innerHTML=svg[g.svg];
+ document.querySelector("#modalSteps").innerHTML=g.steps.map(x=>`<li>${x}</li>`).join("");
+ document.querySelector("#modalTip").textContent="💡 "+g.tip;
+ document.querySelector("#overlay").classList.add("show");
+}
+function bindGuideButtons(){
+ document.querySelectorAll("[data-guide]").forEach(b=>b.onclick=()=>openGuide(b.dataset.guide));
+}
+function render(){
+ document.querySelector("#count").textContent="あと "+Math.max(0,Math.ceil((WEDDING-new Date())/86400000))+" 日";
+ let i=Math.floor((today-new Date("2026-09-20T00:00:00+09:00"))/86400000)%missions.length;
+ let m=missions[(i+7)%7];
+ document.querySelector("#mission").textContent=m[0];
+ document.querySelector("#desc").innerHTML=m[2];
+ document.querySelector("#missionGuides").innerHTML=m[1].map(guideButton).join("");
+ document.querySelector("#allGuides").innerHTML=Object.keys(guides).map(guideButton).join("");
+ bindGuideButtons();
+ if(store[tk]){
+   document.querySelector("#doneMsg").innerHTML='<div class="stamp">🎀</div><div class="done">今日もえらいっ♡</div>';
+   document.querySelector("#done").disabled=true;
+ }
+ let dates=Object.keys(store),streak=0,d=new Date();
+ while(store[key(d)]){streak++;d.setDate(d.getDate()-1)}
+ document.querySelector("#stats").textContent=dates.length+"日達成 / "+streak+"日連続";
+ document.querySelector("#badges").innerHTML=[1,3,7,14,21,30].filter(n=>dates.length>=n).map(n=>'<span class="badge">🏅 '+n+'日</span>').join("");
+ let c="";
+ for(let j=29;j>=0;j--){let x=new Date();x.setDate(x.getDate()-j);c+='<div class="day '+(store[key(x)]?"done":"")+'">'+x.getDate()+"</div>"}
+ document.querySelector("#calendar").innerHTML=c;
+}
 document.querySelector("#done").onclick=()=>{store[tk]=Date.now();localStorage.setItem("honoMission",JSON.stringify(store));render()};
-document.querySelector("#easy").onclick=()=>alert("🌷 3分版\n壁プッシュアップ10回 → デッドバグ左右5回 → 肩甲骨寄せ15回 → 深呼吸♡");
-document.querySelector("#notify").onclick=async()=>{if(!("Notification"in window)){notifyMsg.textContent="この環境では通知を利用できないよ🥺";return}let p=await Notification.requestPermission();notifyMsg.textContent=p==="granted"?"通知の許可OK♡ 次はOneSignal接続で本格的なプッシュ通知にできるよ！":"通知はまだ許可されてないよ。iPhoneの設定から変更できるよ。"};
+document.querySelector("#easy").onclick=()=>openGuide("デッドバグ");
+document.querySelector("#close").onclick=()=>document.querySelector("#overlay").classList.remove("show");
+document.querySelector("#overlay").onclick=e=>{if(e.target.id==="overlay")e.currentTarget.classList.remove("show")};
+document.querySelector("#notify").onclick=async()=>{
+ if(!("Notification"in window)){notifyMsg.textContent="この環境では通知を利用できないよ🥺";return}
+ let p=await Notification.requestPermission();
+ notifyMsg.textContent=p==="granted"?"通知の許可OK♡（本格的なプッシュ通知は今回は見送り）":"通知はまだ許可されてないよ。iPhoneの設定から変更できるよ。";
+};
 render();
-</script></body></html>
+</script>
+</body></html>
